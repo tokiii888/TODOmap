@@ -1,0 +1,27 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}
+  ToDo
+{% endblock %}
+
+{% block main %}
+
+{% if object %}
+<h1>ToDoの編集</h1>
+{% else %}
+<h1>ToDoの作成</h1>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary" type="submit">
+      {% if object %}
+      修正
+      {% else %}
+      追加
+      {% endif %}
+    </button>
+</form>
+<a class="btn btn-secondary" href="{% url 'todo:index' %}">戻る</a>
+{% endblock %}

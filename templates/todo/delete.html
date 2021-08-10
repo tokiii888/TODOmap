@@ -1,0 +1,32 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}
+  ToDo
+{% endblock %}
+
+{% block main %}
+<h1>ToDoの削除</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <td>{{ object.id }}</td>
+    </tr>
+    <tr>
+        <th>ToDo</th>
+        <td>{{ object.todo }}</td>
+    </tr>
+    <tr>
+        <th>作成日時</th>
+        <td>{{ object.created_at }}</td>
+    </tr>
+    <tr>
+        <th>更新日時</th>
+        <td>{{ object.updated_at }}</td>
+    </tr>
+</table>
+<form action="" method="post">
+    {% csrf_token %}
+    <input class="btn btn-danger" type="submit"value="削除" />
+</form>
+<a class="btn btn-secondary" href="{% url 'todo:index' %}">戻る</a>
+{% endblock %}
