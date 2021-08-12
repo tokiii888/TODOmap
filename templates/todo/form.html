@@ -1,7 +1,19 @@
 {% extends 'todo/base.html' %}
 
 {% block title %}
-  ToDo
+  {% if object %}
+  ToDoの編集
+  {% else %}
+  ToDoの作成
+  {% endif %}
+{% endblock %}
+
+{% block jumbotron %}
+  {% if object %}
+  ToDoの編集
+  {% else %}
+  ToDoの作成
+  {% endif %}
 {% endblock %}
 
 {% block main %}

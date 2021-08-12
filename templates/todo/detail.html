@@ -4,8 +4,11 @@
   ToDoの詳細
 {% endblock %}
 
+{% block jumbotron %}
+  ToDoの詳細
+{% endblock %}
+
 {% block main %}
-<h1>ToDoの詳細</h1>
 <table>
     <tr>
         <th>ID</th>
@@ -23,6 +26,13 @@
         <th>更新日時</th>
         <td>{{ object.updated_at }}</td>
     </tr>
+    <tr>
+      <th>場所</th>
+      <td>
+        <iframe src="https://maps.google.co.jp/maps?output=embed&t=m&hl=ja&z=18&ll={{lat}},{{lng}}&q={{lat}},{{lng}}" frameborder="0" scrolling="no" width="auto"></iframe>
+      </td>
+    </tr>
 </table>
+{{lat}},{{lng}},
 <a class="btn btn-secondary" href="{% url 'todo:index' %}">戻る</a>
 {% endblock %}
