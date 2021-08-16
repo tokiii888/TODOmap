@@ -6,6 +6,7 @@ class Todo(models.Model):
   todo = models.CharField('ToDo', max_length=100, blank=False)
   created_at = models.DateTimeField('作成日時', auto_now_add=True)
   updated_at = models.DateTimeField('更新日時',auto_now=True)
+  adress = models.CharField('住所', max_length=100, blank=False, default='日本')
 
   def __str__(self):
     return self.todo

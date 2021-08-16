@@ -1,8 +1,10 @@
 from django import forms
+from django.db import models
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from .models import Todo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+import geocoder
 
 # Create your views here.
 
@@ -20,11 +22,22 @@ class Index(ListView):
   template_name = "todo/index.html"
   model = Todo
   paginate_by = 10 # ページネーションが5ページまで
+  # フィルタ
+  #def get_queryset(self):
+  # return MyModel.objects.filter(some_column=foo)
 
 # 詳細表示
 class Detail(DetailView):
   template_name = "todo/detail.html"
   model = Todo
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    pk = self.kwargs.get(self.pk_url_kwarg)
+    object = self.model.objects.get(pk=pk)
+    ret = geocoder.osm(object.adress, timeout=5.0)
+    context['lat'] = ret.lat
+    context['lng'] = ret.lng
+    return context
 
 # 新規作成
 class Create(CreateView):
