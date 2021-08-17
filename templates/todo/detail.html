@@ -8,31 +8,42 @@
   ToDoの詳細
 {% endblock %}
 
-{% block main %}
-<table>
-    <tr>
-        <th>ID</th>
-        <td>{{ object.id }}</td>
-    </tr>
-    <tr>
-        <th>ToDo</th>
-        <td>{{ object.todo }}</td>
-    </tr>
-    <tr>
-        <th>作成日時</th>
-        <td>{{ object.created_at }}</td>
-    </tr>
-    <tr>
-        <th>更新日時</th>
-        <td>{{ object.updated_at }}</td>
-    </tr>
-    <tr>
-      <th>場所</th>
-      <td>
-        <iframe src="https://maps.google.co.jp/maps?output=embed&t=m&hl=ja&z=18&ll={{lat}},{{lng}}&q={{lat}},{{lng}}" frameborder="0" scrolling="no" width="auto"></iframe>
-      </td>
-    </tr>
-</table>
-{{lat}},{{lng}},
-<a class="btn btn-secondary" href="{% url 'todo:index' %}">戻る</a>
+{% block content %}
+<div>
+  <table>
+      <tr>
+          <th>ID</th>
+          <td>{{ object.id }}</td>
+      </tr>
+      <tr>
+          <th>ToDo</th>
+          <td>{{ object.todo }}</td>
+      </tr>
+      <tr>
+          <th>作成日時</th>
+          <td>{{ object.created_at }}</td>
+      </tr>
+      <tr>
+          <th>更新日時</th>
+          <td>{{ object.updated_at }}</td>
+      </tr>
+      <tr>
+          <th>住所</th>
+          <td>{{ object.adress }}</td>
+      </tr>
+      <tr>
+        <th>場所</th>
+        {% if lat %}
+        <td>
+          <iframe src="https://maps.google.co.jp/maps?output=embed&t=m&hl=ja&z=18&ll={{lat}},{{lng}}&q={{lat}},{{lng}}" frameborder="0" scrolling="no" width="auto"></iframe>
+        </td>
+        {% else %}
+        <td>
+          存在しません
+        </td>
+        {% endif %}
+      </tr>
+  </table>
+  <a class="btn btn-secondary" href="{% url 'todo:index' %}">戻る</a>
+</div>
 {% endblock %}
