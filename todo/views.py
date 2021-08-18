@@ -6,6 +6,8 @@ from .models import Todo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 import geocoder
 
+#googleapikey = '取得したGoogleのAPIキー'
+
 # Create your views here.
 
 class Form(forms.ModelForm):
@@ -15,7 +17,8 @@ class Form(forms.ModelForm):
     exclude = ('created_at','updated_at',)  #入力項目から作成日時、更新日時を除外
     widgets = {
       #'todo': forms.TextInput(attrs={'autocomplete': 'off'}),
-      'todo': forms.Textarea(attrs={'autocomplete': 'off', 'cols': 70, 'rows': 10}, ),
+      'todo': forms.Textarea(attrs={'autocomplete': 'off', 'cols': 80, 'rows': 10}, ),
+      'adress': forms.Textarea(attrs={'autocomplete': 'off', 'cols': 60, 'rows': 1},),
     }
 # 一覧表示
 class Index(ListView):

@@ -7,26 +7,28 @@
   ToDo
 {% endblock %}
 
-{% block main %}
-<a class="btn btn-primary" href="{% url 'todo:create' %}">新規作成</a>
-<table class="table table-striped table-dark">
-  <thead>
-    <tr>
-      <th scope="col" class="text-center">ToDo</th>
-      <th scope="col" class="text-center">操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in object_list %}
-    <tr>
-      <td>{{ item.todo }}</td>
-      <td>
-        <a class="btn btn-secondary" href="{% url 'todo:detail' pk=item.id %}">詳細</a>
-        <a class="btn btn-primary" href="{% url 'todo:update' pk=item.id %}">修正</a>
-        <a class="btn btn-danger" href="{% url 'todo:delete' pk=item.id %}">削除</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% block content %}
+<div>
+  <a class="btn btn-primary" href="{% url 'todo:create' %}">新規作成</a>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">ToDo</th>
+        <th scope="col" class="text-center">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in object_list %}
+      <tr>
+        <td>{{ item.todo }}</td>
+        <td>
+          <a class="btn btn-secondary" href="{% url 'todo:detail' pk=item.id %}">詳細</a>
+          <a class="btn btn-primary" href="{% url 'todo:update' pk=item.id %}">修正</a>
+          <a class="btn btn-danger" href="{% url 'todo:delete' pk=item.id %}">削除</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

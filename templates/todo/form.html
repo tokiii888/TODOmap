@@ -16,11 +16,23 @@
   {% endif %}
 {% endblock %}
 
-{% block main %}
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+{% block content %}
+<div>
+  <form method="post">
+    {{ form.non_field_errors }}
+    <div class="field">
+      {{ form.todo.label_tag }}<br>
+      {{ form.todo }}
+      <span class="helptext">{{ form.todo.help_text }}</span>
+      {{ form.todo.errors }}
+    </div>
+    <div class="field">
+      {{ form.adress.label_tag }}<br>
+      <a class="btn btn-info" href="https://www.google.com/maps">Google Map を使って住所を検索</a><br>
+      {{ form.adress }}
+      <span class="helptext">{{ form.adress.help_text }}</span>
+      {{ form.adress.errors }}
+    </div>
     <button class="btn btn-primary" type="submit">
       {% if object %}
       修正
@@ -28,6 +40,8 @@
       追加
       {% endif %}
     </button>
-</form>
-<a class="btn btn-secondary" href="{% url 'todo:index' %}">戻る</a>
+    {% csrf_token %}
+  </form>
+  <a class="btn btn-secondary" href="{% url 'todo:index' %}">戻る</a>
+</div>
 {% endblock %}
