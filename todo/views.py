@@ -14,12 +14,13 @@ class Form(forms.ModelForm):
   #todo = forms.CharField(widget=forms.Textarea, label='')
   class Meta:
     model = Todo
-    exclude = ('created_at','updated_at',)  #入力項目から作成日時、更新日時を除外
+    exclude = ('created_at','updated_at','lat','lng')  #入力項目から作成日時、更新日時を除外
     widgets = {
       #'todo': forms.TextInput(attrs={'autocomplete': 'off'}),
       'todo': forms.Textarea(attrs={'autocomplete': 'off', 'cols': 80, 'rows': 10}, ),
       'adress': forms.Textarea(attrs={'autocomplete': 'off', 'cols': 60, 'rows': 1},),
     }
+
 # 一覧表示
 class Index(ListView):
   template_name = "todo/index.html"
@@ -33,14 +34,12 @@ class Index(ListView):
 class Detail(DetailView):
   template_name = "todo/detail.html"
   model = Todo
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    pk = self.kwargs.get(self.pk_url_kwarg)
-    object = self.model.objects.get(pk=pk)
-    ret = geocoder.osm(object.adress, timeout=5.0)
-    context['lat'] = ret.lat
-    context['lng'] = ret.lng
-    return context
+  # def get_context_data(self, **kwargs):
+  #   context = super().get_context_data(**kwargs)
+  #   context['lat'] = ret.lat
+  #   context['lng'] = ret.lng
+  #   return context
+
 
 # 新規作成
 class Create(CreateView):
@@ -49,12 +48,34 @@ class Create(CreateView):
   form_class = Form
   success_url = reverse_lazy('todo:index')
 
+    # 送られた値が正しかった時の処理(緯度経度の保存)
+  def form_valid(self, form):
+    pk = self.kwargs.get(self.pk_url_kwarg)
+    adress = self.request.POST.get('adress')
+    ret = geocoder.osm(adress, timeout=5.0)
+    form.instance.lat = ret.lat
+    form.instance.lng = ret.lng
+    form.save()
+    return super().form_valid(form)
+
+
 # 更新
 class Update(UpdateView):
   template_name = "todo/form.html"
   model = Todo
   form_class = Form
   success_url = reverse_lazy('todo:index')
+
+    # 送られた値が正しかった時の処理(緯度経度の保存)
+  def form_valid(self, form):
+    pk = self.kwargs.get(self.pk_url_kwarg)
+    adress = self.request.POST.get('adress')
+    ret = geocoder.osm(adress, timeout=5.0)
+    form.instance.lat = ret.lat
+    form.instance.lng = ret.lng
+    form.save()
+    return super().form_valid(form)
+    
 
 # 削除
 class Delete(DeleteView):
