@@ -33,9 +33,9 @@
       </tr>
       <tr>
         <th>場所</th>
-        {% if lat %}
+        {% if object.lat and object.lng %}
         <td>
-          <iframe src="https://maps.google.co.jp/maps?output=embed&t=m&hl=ja&z=18&ll={{lat}},{{lng}}&q={{lat}},{{lng}}" frameborder="0" scrolling="no" width="auto"></iframe>
+          <iframe src="https://maps.google.co.jp/maps?output=embed&t=m&hl=ja&z=18&ll={{object.lat}},{{object.lng}}&q={{object.lat}},{{object.lng}}" frameborder="0" scrolling="no" width="auto"></iframe>
         </td>
         {% else %}
         <td>
