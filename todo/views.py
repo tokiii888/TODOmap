@@ -2,14 +2,12 @@ from django import forms
 from django.urls import reverse_lazy
 from .models import Todo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-import requests
-import geocoder
+import requests, geocoder
 from django.db.models.expressions import RawSQL
 import math
 from django.db.backends.signals import connection_created
 from django.dispatch import receiver
 from django.urls import reverse_lazy
-from django.contrib.auth.forms import UserCreationForm
 
 #googleapikey = '取得したGoogleのAPIキー'
 
@@ -80,7 +78,6 @@ class Create(CreateView):
 
     # 送られた値が正しかった時の処理(緯度経度の保存)
   def form_valid(self, form):
-    pk = self.kwargs.get(self.pk_url_kwarg)
     adress = self.request.POST.get('adress')
     ret = geocoder.osm(adress, timeout=5.0)
     form.instance.lat = ret.lat
