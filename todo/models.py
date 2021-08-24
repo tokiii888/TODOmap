@@ -7,8 +7,8 @@ class Todo(models.Model):
   created_at = models.DateTimeField('作成日時', auto_now_add=True)
   updated_at = models.DateTimeField('更新日時',auto_now=True)
   adress = models.CharField('住所', max_length=100, blank=False)
-  lat = models.DecimalField('緯度', max_digits=9, decimal_places=6)
-  lng = models.DecimalField('経度', max_digits=9, decimal_places=6)
+  lat = models.FloatField('緯度')
+  lng = models.FloatField('経度')
 
   def __str__(self):
     return self.todo

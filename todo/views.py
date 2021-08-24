@@ -1,10 +1,8 @@
 from django import forms
-from django.db import models
 from django.urls import reverse_lazy
-from django.shortcuts import render
 from .models import Todo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-import geocoder
+import requests
 
 #googleapikey = '取得したGoogleのAPIキー'
 
@@ -26,19 +24,21 @@ class Index(ListView):
   template_name = "todo/index.html"
   model = Todo
   paginate_by = 10 # ページネーションが5ページまで
-  # フィルタ
-  #def get_queryset(self):
-  # return MyModel.objects.filter(some_column=foo)
+  def get_queryset(self):
+    print("接続!")
+    geo_request_url = 'https://get.geojs.io/v1/ip/geo.json'
+    geo_data = requests.get(geo_request_url).json()
+    print(geo_data['latitude'])
+    print(geo_data['longitude'])
+    ref_location = Point(geo_data['latitude'], geo_data['longitude'], srid=4326)
+    return Todo.objects.annotate(
+      distance=GeometryDistance('location', ref_location)
+      ).order_by('distance')
 
 # 詳細表示
 class Detail(DetailView):
   template_name = "todo/detail.html"
   model = Todo
-  # def get_context_data(self, **kwargs):
-  #   context = super().get_context_data(**kwargs)
-  #   context['lat'] = ret.lat
-  #   context['lng'] = ret.lng
-  #   return context
 
 
 # 新規作成
@@ -75,7 +75,6 @@ class Update(UpdateView):
     form.instance.lng = ret.lng
     form.save()
     return super().form_valid(form)
-    
 
 # 削除
 class Delete(DeleteView):
