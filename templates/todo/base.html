@@ -21,14 +21,14 @@
         <span class="navbar-toggler-icon"></span>
     </button>
       <div class="collapse navbar-collapse" id="navbar">
-        {% if session.user_id %}
+        {% if user.is_authenticated %}
           <ul class="navbar-nav ml-auto mt-2">
-            <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+            <li class="nav-item"><a class="nav-link" href={% url 'logout' %}>Log Out</a></li>
           </ul>
         {% else %}
           <ul class="navbar-nav ml-auto mt-2">
-            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-            <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+            <li class="nav-item"><a class="nav-link" href="/accounts/signup">Sign up</a></li>
+            <li class="nav-item"><a class="nav-link" href="/accounts/login">Login</a></li>
           </ul>
         {% endif %}
       </div>
@@ -40,7 +40,11 @@
         <h1>{% block jumbotron %}{% endblock %}</h1>
       </div>
     </div>
+    {% if user.is_authenticated %}
       {% block content %}{% endblock %}
+    {% else %}
+      <h4>ナビゲーションバーからLoginもしくはSign upをしてください</h1>
+    {% endif %}
   </main>
   <footer class="continer px-5 small text-center text-muted">
     <p>Copyright &#169; Toki</p>

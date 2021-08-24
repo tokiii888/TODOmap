@@ -8,6 +8,8 @@ from django.db.models.expressions import RawSQL
 import math
 from django.db.backends.signals import connection_created
 from django.dispatch import receiver
+from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
 
 #googleapikey = '取得したGoogleのAPIキー'
 
