@@ -9,6 +9,7 @@ class Todo(models.Model):
   adress = models.CharField('住所', max_length=100, blank=False)
   lat = models.FloatField('緯度')
   lng = models.FloatField('経度')
+  user = models.IntegerField('ユーザーID', null=False)
 
   def __str__(self):
     return self.todo

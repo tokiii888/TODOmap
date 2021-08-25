@@ -17,7 +17,7 @@ class Form(forms.ModelForm):
   #todo = forms.CharField(widget=forms.Textarea, label='')
   class Meta:
     model = Todo
-    exclude = ('created_at','updated_at','lat','lng')  #入力項目から作成日時、更新日時を除外
+    exclude = ('created_at','updated_at','lat','lng','user')  #入力項目から作成日時、更新日時を除外
     widgets = {
       #'todo': forms.TextInput(attrs={'autocomplete': 'off'}),
       'todo': forms.Textarea(attrs={'autocomplete': 'off', 'cols': 80, 'rows': 10}, ),
@@ -56,6 +56,7 @@ class Index(ListView):
           (latitude, longitude, latitude)
       )
       qs = Todo.objects.all() \
+      .filter(user=self.request.user.id)\
       .annotate(distance=distance_raw_sql)\
       .order_by('distance')
       return qs
@@ -82,6 +83,7 @@ class Create(CreateView):
     ret = geocoder.osm(adress, timeout=5.0)
     form.instance.lat = ret.lat
     form.instance.lng = ret.lng
+    form.instance.user = self.request.user.id
     form.save()
     return super().form_valid(form)
 
